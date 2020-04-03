@@ -8,7 +8,7 @@ class SensorData {
   factory SensorData.fromJson(Map<String, dynamic> json) {
     return SensorData(
       date:
-          DateTime.fromMillisecondsSinceEpoch(json['Date'] as int, isUtc: true),
+          DateTime.fromMillisecondsSinceEpoch(json['Date'] * 1000, isUtc: true),
       temp: json['temperature'].toDouble(),
       hum: json['humidity'].toDouble(),
     );

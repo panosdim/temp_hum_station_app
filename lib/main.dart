@@ -1,4 +1,7 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'model/sensor_data.dart';
 import 'repositories/fetch_data.dart';
 
@@ -29,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<List<SensorData>> sensorData;
+  final f = new DateFormat('dd-MM-yyyy hh:mm');
 
   @override
   void initState() {
@@ -47,7 +51,53 @@ class _MyHomePageState extends State<MyHomePage> {
           future: sensorData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.toString());
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  f.format(snapshot.data.elementAt(index).date),
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                    snapshot.data
+                                            .elementAt(index)
+                                            .temp
+                                            .toString() +
+                                        ' C',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                Text(
+                                    snapshot.data
+                                            .elementAt(index)
+                                            .hum
+                                            .toString() +
+                                        ' %',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
