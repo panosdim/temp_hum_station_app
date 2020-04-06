@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<List<SensorData>> sensorData;
-  final f = new DateFormat('dd-MM-yyyy hh:mm');
+  final f = new DateFormat('dd-MM-yyyy HH:00');
 
   @override
   void initState() {
@@ -52,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
+                reverse: true,
+                itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   return Card(
                     child: Padding(
@@ -78,17 +80,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                             .elementAt(index)
                                             .temp
                                             .toString() +
-                                        ' C',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
+                                        " \u2103",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red)),
                                 Text(
                                     snapshot.data
                                             .elementAt(index)
                                             .hum
                                             .toString() +
-                                        ' %',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
+                                        " \u0025",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue)),
                               ],
                             ),
                           ),
