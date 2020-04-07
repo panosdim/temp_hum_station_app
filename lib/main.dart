@@ -1,9 +1,8 @@
 import 'dart:core';
 
+import 'package:THS/components/bottom_bar.dart';
+import 'package:THS/components/data_table.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'model/sensor_data.dart';
-import 'repositories/fetch_data.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,13 +30,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<List<SensorData>> sensorData;
-  final f = new DateFormat('dd-MM-yyyy HH:00');
+  int _active = 0;
+  final List<Widget> _children = [
+    Text("Messages"),
+    DataTableWidget(),
+    Text("Profile")
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    sensorData = fetchData();
+  void _handleBottomBarChanged(int newValue) {
+    setState(() {
+      _active = newValue;
+    });
   }
 
   @override
@@ -46,76 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: FutureBuilder<List<SensorData>>(
-          future: sensorData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                reverse: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  f.format(snapshot.data.elementAt(index).date),
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text(
-                                    snapshot.data
-                                            .elementAt(index)
-                                            .temp
-                                            .toString() +
-                                        " \u2103",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red)),
-                                Text(
-                                    snapshot.data
-                                            .elementAt(index)
-                                            .hum
-                                            .toString() +
-                                        " \u0025",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
+      body: Center(child: _children[_active]),
+      bottomNavigationBar: BottomBarWidget(
+        onChanged: _handleBottomBarChanged,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
