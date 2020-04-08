@@ -2,6 +2,8 @@ import 'dart:core';
 
 import 'package:THS/components/bottom_bar.dart';
 import 'package:THS/components/data_table.dart';
+import 'package:THS/model/sensor_data.dart';
+import 'package:THS/repositories/fetch_data.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -30,12 +32,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Future<List<SensorData>> sensorData;
   int _active = 0;
-  final List<Widget> _children = [
-    Text("Messages"),
-    DataTableWidget(),
-    Text("Profile")
-  ];
+  List<Widget> _children = [];
+
+  @override
+  void initState() {
+    super.initState();
+    sensorData = fetchData();
+  }
 
   void _handleBottomBarChanged(int newValue) {
     setState(() {
@@ -49,7 +54,26 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(child: _children[_active]),
+      body: Center(
+        child: FutureBuilder<List<SensorData>>(
+          future: this.sensorData,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              _children = [
+                Text("Messages"),
+                DataTableWidget(sensorData: snapshot.data),
+                Text("Profile")
+              ];
+              return _children[_active];
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          },
+        ),
+      ),
       bottomNavigationBar: BottomBarWidget(
         onChanged: _handleBottomBarChanged,
       ),
