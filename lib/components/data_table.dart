@@ -20,9 +20,9 @@ class _DataTableWidgetState extends State<DataTableWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      reverse: true,
       itemCount: widget.sensorData.length,
       itemBuilder: (context, index) {
+        int i = widget.sensorData.length - 1 - index;
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -33,7 +33,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        f.format(widget.sensorData.elementAt(index).date),
+                        f.format(widget.sensorData.elementAt(i).date.toLocal()),
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
@@ -45,7 +45,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                     children: <Widget>[
                       Text(
                           widget.sensorData
-                                  .elementAt(index)
+                                  .elementAt(i)
                                   .temp
                                   .toStringAsFixed(2) +
                               " \u2103",
@@ -53,7 +53,7 @@ class _DataTableWidgetState extends State<DataTableWidget> {
                               fontWeight: FontWeight.bold, color: Colors.red)),
                       Text(
                           widget.sensorData
-                                  .elementAt(index)
+                                  .elementAt(i)
                                   .hum
                                   .toStringAsFixed(2) +
                               " \u0025",

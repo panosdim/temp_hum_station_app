@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:THS/components/bottom_bar.dart';
+import 'package:THS/components/dashboard.dart';
 import 'package:THS/components/data_table.dart';
 import 'package:THS/model/sensor_data.dart';
 import 'package:THS/repositories/fetch_data.dart';
@@ -54,13 +55,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Container(
         child: FutureBuilder<List<SensorData>>(
           future: this.sensorData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _children = [
-                Text("Messages"),
+                DashboardWidget(sensorData: snapshot.data),
                 DataTableWidget(sensorData: snapshot.data),
                 Text("Profile")
               ];
