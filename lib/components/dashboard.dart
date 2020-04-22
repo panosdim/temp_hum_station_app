@@ -17,8 +17,8 @@ class DashboardWidget extends StatefulWidget {
 
 class _DashboardWidgetState extends State<DashboardWidget> {
   final f = new DateFormat('dd-MM-yyyy HH:00');
-  SensorData _maxTempToday, _minTempToday, _maxTempMonth, _minTempMonth;
-  SensorData _maxHumToday, _minHumToday, _maxHumMonth, _minHumMonth;
+  String _maxTempToday, _minTempToday, _maxTempMonth, _minTempMonth;
+  String _maxHumToday, _minHumToday, _maxHumMonth, _minHumMonth;
 
   @override
   void initState() {
@@ -31,29 +31,59 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         .where((i) => isSameMonth(i.date, new DateTime.now()))
         .toList();
 
-    _maxTempToday =
-        _todayData.reduce((curr, next) => curr.temp > next.temp ? curr : next);
+    if (_todayData.length == 0) {
+      _maxTempToday = "-";
+      _minTempToday = "-";
+      _maxHumToday = "-";
+      _minHumToday = "-";
+    } else {
+      _maxTempToday = _todayData
+          .reduce((curr, next) => curr.temp > next.temp ? curr : next)
+          .temp
+          .toStringAsFixed(2);
 
-    _minTempToday =
-        _todayData.reduce((curr, next) => curr.temp < next.temp ? curr : next);
+      _minTempToday = _todayData
+          .reduce((curr, next) => curr.temp < next.temp ? curr : next)
+          .temp
+          .toStringAsFixed(2);
 
-    _maxTempMonth =
-        _monthData.reduce((curr, next) => curr.temp > next.temp ? curr : next);
+      _maxHumToday = _todayData
+          .reduce((curr, next) => curr.hum > next.hum ? curr : next)
+          .hum
+          .toStringAsFixed(2);
 
-    _minTempMonth =
-        _monthData.reduce((curr, next) => curr.temp < next.temp ? curr : next);
+      _minHumToday = _todayData
+          .reduce((curr, next) => curr.hum < next.hum ? curr : next)
+          .hum
+          .toStringAsFixed(2);
+    }
 
-    _maxHumToday =
-        _todayData.reduce((curr, next) => curr.hum > next.hum ? curr : next);
+    if (_monthData.length == 0) {
+      _maxTempMonth = "-";
+      _minTempMonth = "-";
+      _maxHumMonth = "-";
+      _minHumMonth = "-";
+    } else {
+      _maxTempMonth = _monthData
+          .reduce((curr, next) => curr.temp > next.temp ? curr : next)
+          .temp
+          .toStringAsFixed(2);
 
-    _minHumToday =
-        _todayData.reduce((curr, next) => curr.hum < next.hum ? curr : next);
+      _minTempMonth = _monthData
+          .reduce((curr, next) => curr.temp < next.temp ? curr : next)
+          .temp
+          .toStringAsFixed(2);
 
-    _maxHumMonth =
-        _monthData.reduce((curr, next) => curr.hum > next.hum ? curr : next);
+      _maxHumMonth = _monthData
+          .reduce((curr, next) => curr.hum > next.hum ? curr : next)
+          .hum
+          .toStringAsFixed(2);
 
-    _minHumMonth =
-        _monthData.reduce((curr, next) => curr.hum < next.hum ? curr : next);
+      _minHumMonth = _monthData
+          .reduce((curr, next) => curr.hum < next.hum ? curr : next)
+          .hum
+          .toStringAsFixed(2);
+    }
   }
 
   bool isSameDate(DateTime that, DateTime other) {
@@ -94,15 +124,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               'Today',
                               style: TextStyle(fontSize: 32),
                             ),
-                            Text(
-                                "Max " +
-                                    _maxTempToday.temp.toStringAsFixed(2) +
-                                    " \u2103",
+                            Text("Max " + _maxTempToday + " \u2103",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                                "Min " +
-                                    _minTempToday.temp.toStringAsFixed(2) +
-                                    " \u2103",
+                            Text("Min " + _minTempToday + " \u2103",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                           ],
                         ),
@@ -114,15 +138,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               'Month',
                               style: TextStyle(fontSize: 32),
                             ),
-                            Text(
-                                "Max " +
-                                    _maxTempMonth.temp.toStringAsFixed(2) +
-                                    " \u2103",
+                            Text("Max " + _maxTempMonth + " \u2103",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                                "Min " +
-                                    _minTempMonth.temp.toStringAsFixed(2) +
-                                    " \u2103",
+                            Text("Min " + _minTempMonth + " \u2103",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                           ],
                         ),
@@ -156,15 +174,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               'Today',
                               style: TextStyle(fontSize: 32),
                             ),
-                            Text(
-                                "Max " +
-                                    _maxHumToday.hum.toStringAsFixed(2) +
-                                    " \u0025",
+                            Text("Max " + _maxHumToday + " \u0025",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                                "Min " +
-                                    _minHumToday.hum.toStringAsFixed(2) +
-                                    " \u0025",
+                            Text("Min " + _minHumToday + " \u0025",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                           ],
                         ),
@@ -176,15 +188,9 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                               'Month',
                               style: TextStyle(fontSize: 32),
                             ),
-                            Text(
-                                "Max " +
-                                    _maxHumMonth.hum.toStringAsFixed(2) +
-                                    " \u0025",
+                            Text("Max " + _maxHumMonth + " \u0025",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                                "Min " +
-                                    _minHumMonth.hum.toStringAsFixed(2) +
-                                    " \u0025",
+                            Text("Min " + _minHumMonth + " \u0025",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                           ],
                         ),

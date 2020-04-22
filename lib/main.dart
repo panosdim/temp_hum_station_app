@@ -71,7 +71,9 @@ class _MyHomePageState extends State<MyHomePage> {
             }
 
             // By default, show a loading spinner.
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
       ),
