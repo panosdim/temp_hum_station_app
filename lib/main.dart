@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:THS/components/bottom_bar.dart';
+import 'package:THS/components/charts.dart';
 import 'package:THS/components/dashboard.dart';
 import 'package:THS/components/data_table.dart';
 import 'package:THS/model/sensor_data.dart';
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _children = [
                 DashboardWidget(sensorData: snapshot.data),
                 DataTableWidget(sensorData: snapshot.data),
-                Text("Profile")
+                ChartsWidget.withData(snapshot.data),
               ];
               return _children[_active];
             } else if (snapshot.hasError) {
