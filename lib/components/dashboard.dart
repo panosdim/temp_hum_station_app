@@ -1,5 +1,6 @@
 import 'package:THS/custom_icons_icons.dart';
 import 'package:THS/model/sensor_data.dart';
+import 'package:THS/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -121,18 +122,6 @@ class _DashboardWidgetState extends State<DashboardWidget> {
           .hum
           .toStringAsFixed(2);
     }
-  }
-
-  bool isSameDate(DateTime that, DateTime other) {
-    DateTime a = that.toLocal();
-    DateTime b = other.toLocal();
-    return a.year == b.year && a.month == b.month && a.day == b.day;
-  }
-
-  bool isSameMonth(DateTime that, DateTime other) {
-    DateTime a = that.toLocal();
-    DateTime b = other.toLocal();
-    return a.year == b.year && a.month == b.month;
   }
 
   @override

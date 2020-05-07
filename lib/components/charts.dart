@@ -1,4 +1,5 @@
 import 'package:THS/model/sensor_data.dart';
+import 'package:THS/utils.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
@@ -8,11 +9,25 @@ class ChartsWidget extends StatelessWidget {
 
   ChartsWidget(this.seriesList, {this.animate});
 
-  factory ChartsWidget.withData(List<SensorData> data) {
-    return new ChartsWidget(_createDailyData(data));
+  factory ChartsWidget.allTimeData(List<SensorData> data) {
+    return new ChartsWidget(_createData(data));
   }
 
-  static List<charts.Series<TimeSeriesData, DateTime>> _createDailyData(
+  factory ChartsWidget.monthlyData(List<SensorData> data) {
+    final List<SensorData> _monthData =
+        data.where((i) => isSameMonth(i.date, new DateTime.now())).toList();
+
+    return new ChartsWidget(_createData(_monthData));
+  }
+
+  factory ChartsWidget.dailyData(List<SensorData> data) {
+    final List<SensorData> _todayData =
+        data.where((i) => isSameDate(i.date, new DateTime.now())).toList();
+
+    return new ChartsWidget(_createData(_todayData));
+  }
+
+  static List<charts.Series<TimeSeriesData, DateTime>> _createData(
       List<SensorData> data) {
     List<TimeSeriesData> dailyData = [];
     data.forEach((f) => dailyData.add(new TimeSeriesData(f.date, f.temp)));

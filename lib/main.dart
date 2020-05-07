@@ -64,7 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
               _children = [
                 DashboardWidget(sensorData: snapshot.data),
                 DataTableWidget(sensorData: snapshot.data),
-                ChartsWidget.withData(snapshot.data),
+                Column(mainAxisSize: MainAxisSize.min, children: [
+                  Expanded(child: ChartsWidget.allTimeData(snapshot.data)),
+                  Expanded(child: ChartsWidget.monthlyData(snapshot.data)),
+                  Expanded(child: ChartsWidget.dailyData(snapshot.data)),
+                ]),
               ];
               return _children[_active];
             } else if (snapshot.hasError) {
