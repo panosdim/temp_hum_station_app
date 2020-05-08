@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<List<SensorData>> fetchData() async {
-  final _baseUrl = 'http://192.168.10.7:8080';
+  final _baseUrl = 'http://goflex.panosdim.me:9006';
   final response = await http.get('$_baseUrl/api/v1');
 
   if (response.statusCode == 200) {

@@ -65,8 +65,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 DashboardWidget(sensorData: snapshot.data),
                 DataTableWidget(sensorData: snapshot.data),
                 Column(mainAxisSize: MainAxisSize.min, children: [
+                  Text(
+                    "All Time",
+                    style: TextStyle(fontSize: 26),
+                  ),
                   Expanded(child: ChartsWidget.allTimeData(snapshot.data)),
+                  Text(
+                    "Month",
+                    style: TextStyle(fontSize: 26),
+                  ),
                   Expanded(child: ChartsWidget.monthlyData(snapshot.data)),
+                  Text(
+                    "Today",
+                    style: TextStyle(fontSize: 26),
+                  ),
                   Expanded(child: ChartsWidget.dailyData(snapshot.data)),
                 ]),
               ];

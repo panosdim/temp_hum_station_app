@@ -29,16 +29,28 @@ class ChartsWidget extends StatelessWidget {
 
   static List<charts.Series<TimeSeriesData, DateTime>> _createData(
       List<SensorData> data) {
-    List<TimeSeriesData> dailyData = [];
-    data.forEach((f) => dailyData.add(new TimeSeriesData(f.date, f.temp)));
+    List<TimeSeriesData> tempData = [];
+    List<TimeSeriesData> humData = [];
+
+    for (var item in data) {
+      tempData.add(new TimeSeriesData(item.date, item.temp));
+      humData.add(new TimeSeriesData(item.date, item.hum));
+    }
 
     return [
       new charts.Series<TimeSeriesData, DateTime>(
         id: 'Temperature',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
         domainFn: (TimeSeriesData temp, _) => temp.time,
         measureFn: (TimeSeriesData temp, _) => temp.value,
-        data: dailyData,
+        data: tempData,
+      ),
+      new charts.Series<TimeSeriesData, DateTime>(
+        id: 'Humidity',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (TimeSeriesData hum, _) => hum.time,
+        measureFn: (TimeSeriesData hum, _) => hum.value,
+        data: humData,
       )
     ];
   }
