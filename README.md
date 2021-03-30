@@ -2,6 +2,10 @@
 
 An app that visualizes the temperature and humidity data from IoT station.
 
+## Build Instructions
+
+In order to build the apk check the [official documentation](https://flutter.dev/docs/deployment/android).
+
 ## Screenshots
 
 ![Screenshot_20200511-113443](https://user-images.githubusercontent.com/10371312/81541418-bc70f000-937b-11ea-8b77-23db5d2efeed.jpg)
